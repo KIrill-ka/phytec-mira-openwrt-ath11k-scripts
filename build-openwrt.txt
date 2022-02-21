@@ -1,0 +1,6 @@
+git clone https://github.com/KIrill-ka/phytec-mira-openwrt-ath11k-scripts.git
+git clone -b ath11k-imx6 https://github.com/KIrill-ka/openwrt.git
+cd openwrt
+cp ../phytec-mira-openwrt-ath11k-scripts/openwrt.confg .config
+make oldconfig
+make

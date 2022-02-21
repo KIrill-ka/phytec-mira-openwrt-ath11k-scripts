@@ -1,0 +1,18 @@
+# opkg install commands
+opkg update
+opkg install kmod-ath11k_pci
+
+# enabling mhi debug
+cd /sys/kernel/debug/dynamic_debug
+echo 'file pm.c +p' > control
+echo 'file main.c +p' > control
+echo 'file boot.c +p' > control
+
+# disable automatic loading of ath11k
+rm /etc/modules.d/ath11k
+reboot
+
+# manual load of ath11k with debug enabled
+modprobe mac80211
+insmod ath11k.ko debug_mask=0xffffffff
+insmod ath11k_pci.ko
