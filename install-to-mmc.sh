@@ -27,6 +27,8 @@ cp $BOARD2BIN $ATH11KFW/hw1.0/board-2.bin
 #cp $ATH11KFW_SRC/hw1.0/2.5.0.1/WLAN.HK.2.5.0.1-01100-QCAHKSWPL_SILICONZ-1/*.bin $ATH11KFW/hw1.0
 echo 'src/gz openwrt_core file:///kernel-packages' > etc/opkg/distfeeds.conf
 echo 'src/gz openwrt_base file:///packages/arm_cortex-a9_neon/base' >> etc/opkg/distfeeds.conf
+echo 'src/gz openwrt_packages file:///packages/arm_cortex-a9_neon/packages' >> etc/opkg/distfeeds.conf
+echo 'src/gz openwrt_luci file:///packages/arm_cortex-a9_neon/luci' >> etc/opkg/distfeeds.conf
 cd /
 
 umount /mnt

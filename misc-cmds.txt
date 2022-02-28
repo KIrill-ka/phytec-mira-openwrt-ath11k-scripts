@@ -1,6 +1,14 @@
+# adding luci packages
+scripts/feeds update
+scripts/feeds install cgi-io
+scripts/feeds install -a -p luci
+
 # opkg install commands
 opkg update
-opkg install kmod-ath11k_pci
+opkg install ath11k-firmware-qcn9074
+opkg install kmod-ath11k-pci
+opkg install hostapd
+opkg install luci
 
 # enabling mhi debug
 cd /sys/kernel/debug/dynamic_debug
