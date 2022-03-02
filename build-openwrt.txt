@@ -1,6 +1,49 @@
+сборка openwrt с нуля
+---------------------
+
 git clone https://github.com/KIrill-ka/phytec-mira-openwrt-ath11k-scripts.git
 git clone -b ath11k-imx6 https://github.com/KIrill-ka/openwrt.git
 cd openwrt
 cp ../phytec-mira-openwrt-ath11k-scripts/openwrt.config .config
 make oldconfig
 make
+
+
+
+разные команды git
+------------------
+
+# обновить текущую ветку и локальную копию c github
+# локальная копия - это исходники openwrt, которые представлены на файловой системе
+# и используются для сборки
+git pull
+
+# добавить ссылку на базовую ветку robimarko/openwrt
+git remote add upstream https://github.com/robimarko/openwrt.git
+
+# проверить ссылки на внешние репозитарии
+# origin - должна быть ссылка на мой github
+# upstream - на github robimarko
+git remote -v
+
+# вытащить robimarko/openwrt в локальную базу git (без обновления локальной копии)
+git fetch upstream --tags
+
+# переключиться на другую ветку (обновить локальную копию)
+git checkout <name>
+<name> - тег, коммит, или ветка
+
+# сравнение текущей версии и robimarko/openwrt тег ipq807x-latest
+git diff ipq807x-latest
+
+# сравнение локлальной копии и robimarko/openwrt ветка ipq807x-5.15
+# В настоящее время тег ipq807x-latest совпадает с веткой ipq807x-5.15,
+# но так может быть не всегда.
+git diff upstream/ipq807x-5.15
+
+# просмотр локальных изменений
+git diff
+
+# просмотр изменений в приложении для сравнения файлов
+git difftool
+
