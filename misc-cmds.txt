@@ -24,3 +24,9 @@ reboot
 modprobe mac80211
 insmod ath11k.ko debug_mask=0xffffffff
 insmod ath11k_pci.ko
+
+# разбор и сборка board-2.bin 
+# qca-swiss-army-knife/tools/scripts/ath11k
+./ath11k-bdencoder -e board-2.bin
+отредактировать board-2.json
+./ath11k-bdencoder -c board-2.json
