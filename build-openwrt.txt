@@ -1,17 +1,44 @@
-сборка openwrt с нуля
----------------------
+Сборка openwrt
 
-git clone https://github.com/KIrill-ka/phytec-mira-openwrt-ath11k-scripts.git
-git clone -b ath11k-imx6 https://github.com/KIrill-ka/openwrt.git
+1) получение исходников
+git clone -b ath11k-imx6-up2 https://github.com/KIrill-ka/openwrt.git
 cd openwrt
-cp ../phytec-mira-openwrt-ath11k-scripts/openwrt.config .config
-make oldconfig
-make
+scripts/feeds update
+
+# web-интерфейс (luci)
+scripts/feeds install cgi-io
+scripts/feeds install -a -p luci
+
+# iperf
+scripts/feeds install iperf
+scripts/feeds install iperf3
+
+# поддержка snmp
+scripts/feeds install snmpd
+
+# дополнительные пакеты snmp
+scripts/feeds install snmp-mibs
+scripts/feeds install snmp-utils
+
+# relayd
+scripts/feeds install relayd
+
+cd ..
+
+
+2) подготовка конфигурации openwrt
+git clone https://github.com/KIrill-ka/phytec-mira-openwrt-ath11k-scripts.git
+cp phytec-mira-openwrt-ath11k-scripts/diffconfig openwrt/.config
+cd openwrt
+make defconfig
+make download
+
+3) сборка (-j4 параллельная сборка в 4 параллельных процесса)
+make -j4
 
 
 
-разные команды git
-------------------
+Разные команды git
 
 # обновить текущую ветку и локальную копию c github
 # локальная копия - это исходники openwrt, которые представлены на файловой системе
@@ -47,3 +74,22 @@ git diff
 # просмотр изменений в приложении для сравнения файлов
 git difftool
 
+# обновление openwrt (как это делалось для получения ath11k-imx6-up1)
+git fetch upstream ipq807x-5.15:ipq807x-5.15
+git checkout ipq807x-5.15
+git branch ath11k-imx6-up1
+git checkout ath11k-imx6-up1
+git cherry-pick 83286eea2331f3d97c36962968c6068a2f3525bc
+git cherry-pick b47fe301084ca615a675a77b3bf51d07b3caa7a6
+# следующие commit'ы пропущены т.к. в новой версии они не нужны
+# git cherry-pick af65d162c96dceb5d7ad7b119169204c5407b3eb
+# git cherry-pick 57819d5c0c5e22426bb1952ce3e1171d95e8e3d2
+git cherry-pick adc4667c62a82f4e3d827e891274be3b1fba1f64
+git cherry-pick 088ccb635ba0eeb747f5bfe730e5d2e2f927cdb8
+git push --set-upstream origin ath11k-imx6-up1
+# при этом ветка origin ipq807x-5.15 не обновится!
+
+git checkout ipq807x-5.15
+git branch -m ipq807x-5.15-up0
+git push --set-upstream origin ipq807x-5.15-up0
+git push origin --delete ipq807x-5.15

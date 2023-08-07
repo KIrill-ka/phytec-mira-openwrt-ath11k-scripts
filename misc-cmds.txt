@@ -1,13 +1,9 @@
-# adding luci packages
-scripts/feeds update
-scripts/feeds install cgi-io
-scripts/feeds install -a -p luci
-
 # opkg install commands
 opkg update
 opkg install ath11k-firmware-qcn9074
 opkg install kmod-ath11k-pci
 opkg install hostapd
+opkg install wpa-supplicant
 opkg install luci
 
 # enabling mhi debug
@@ -21,9 +17,12 @@ rm /etc/modules.d/ath11k
 reboot
 
 # manual load of ath11k with debug enabled
+# mv /etc/modprobe.d/ath11k-pci /root
+# echo 8 > /proc/sys/kernel/printk
 modprobe mac80211
 insmod ath11k.ko debug_mask=0xffffffff
 insmod ath11k_pci.ko
+
 
 # разбор и сборка board-2.bin 
 # qca-swiss-army-knife/tools/scripts/ath11k
